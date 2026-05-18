@@ -26,20 +26,30 @@ public class SecurityConfig {
     }
 
     @Bean
-    public CorsFilter corsFilter() {
-        CorsConfiguration config = new CorsConfiguration();
+public CorsFilter corsFilter() {
+    CorsConfiguration config = new CorsConfiguration();
 
-        config.setAllowedOrigins(List.of("http://localhost:3000"));
-        config.setAllowedOrigins(List.of("https://student-result-portal-8ps39ltcu-mukeshchand.vercel.app"));
-        config.setAllowedMethods(List.of("*"));
-        config.setAllowedHeaders(List.of("*"));
-        config.setAllowCredentials(true);
+    config.setAllowedOriginPatterns(List.of(
+            "http://localhost:3000",
+            "https://*.vercel.app"
+    ));
 
-        UrlBasedCorsConfigurationSource source =
-                new UrlBasedCorsConfigurationSource();
+    config.setAllowedMethods(List.of(
+            "GET",
+            "POST",
+            "PUT",
+            "DELETE",
+            "OPTIONS"
+    ));
 
-        source.registerCorsConfiguration("/**", config);
+    config.setAllowedHeaders(List.of("*"));
+    config.setAllowCredentials(true);
 
-        return new CorsFilter(source);
-    }
+    UrlBasedCorsConfigurationSource source =
+            new UrlBasedCorsConfigurationSource();
+
+    source.registerCorsConfiguration("/**", config);
+
+    return new CorsFilter(source);
+}
 }
