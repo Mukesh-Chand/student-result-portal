@@ -2,7 +2,7 @@ import axios from 'axios'
 
 const apiClient = axios.create({
   baseURL: 'https://student-result-portal-7dqc.onrender.com',
-  timeout: 10000,
+  timeout: 90000,
   headers: {
     'Content-Type': 'application/json',
   },
@@ -37,6 +37,17 @@ apiClient.interceptors.response.use(
  * @returns {Promise<Object>} result data
  */
 export async function fetchResult(rollNumber, semester) {
+  try {
+  const response = await apiClient.get(endpoint)
+  return response.data
+} catch (err) {
+  if (err.message.includes('waking up')) {
+    await new Promise(resolve => setTimeout(resolve, 15000))
+    const retry = await apiClient.get(endpoint)
+    return retry.data
+  }
+  throw err
+}
   const endpoint =
     semester === 'REPORT'
       ? `/api/results/report/${rollNumber}`
