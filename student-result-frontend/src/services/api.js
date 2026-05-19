@@ -37,25 +37,27 @@ apiClient.interceptors.response.use(
  * @returns {Promise<Object>} result data
  */
 export async function fetchResult(rollNumber, semester) {
-  try {
-  const response = await apiClient.get(endpoint)
-  return response.data
-} catch (err) {
-  if (err.message.includes('waking up')) {
-    await new Promise(resolve => setTimeout(resolve, 15000))
-    const retry = await apiClient.get(endpoint)
-    return retry.data
-  }
-  throw err
-}
   const endpoint =
     semester === 'REPORT'
       ? `/api/results/report/${rollNumber}`
       : `/api/results?rollNumber=${rollNumber}&semester=${semester}`
 
-  const response = await apiClient.get(endpoint)
+  try {
+    const response = await apiClient.get(endpoint)
+    return response.data
+  } catch (error) {
+    if (
+      error.message.includes('Unable to reach') ||
+      error.message.includes('timeout')
+    ) {
+      await new Promise((resolve) => setTimeout(resolve, 15000))
 
-  return response.data
+      const retryResponse = await apiClient.get(endpoint)
+      return retryResponse.data
+    }
+
+    throw error
+  }
 }
 
 export default apiClient
