@@ -122,8 +122,8 @@ export default function AdminDashboard() {
     setResult(null)
     try {
       const response = await axios.get(
-        `http://localhost:8080/api/admin/result?rollNumber=${rollNumber.trim().toUpperCase()}&semester=${semester}`
-      )
+  `https://student-result-portal-7dqc.onrender.com/api/admin/result?rollNumber=${rollNumber.trim().toUpperCase()}&semester=${semester}`
+)
       setResult(response.data)
       setOriginal(JSON.parse(JSON.stringify(response.data))) // deep clone for reset
     } catch {
