@@ -144,7 +144,7 @@ export default function AdminDashboard() {
   const updateResult = async () => {
     setUpdating(true)
     try {
-      await axios.put('http://localhost:8080/api/admin/result', {
+      await axios.put('https://student-result-portal-7dqc.onrender.com/api/admin/result', {
         rollNumber:    result.rollNumber,
         semester:      result.semester,
         sgpa:          result.sgpa,
