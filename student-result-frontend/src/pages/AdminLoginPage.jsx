@@ -14,7 +14,10 @@ export default function AdminLoginPage() {
     setError('')
     setLoading(true)
     try {
-      await axios.post('http://localhost:8080/api/admin/login', { username, password })
+      await axios.post(
+  'https://student-result-portal-7dqc.onrender.com/api/admin/login',
+  { username, password }
+)
       localStorage.setItem('adminLoggedIn', 'true')
       navigate('/admin/dashboard')
     } catch {
